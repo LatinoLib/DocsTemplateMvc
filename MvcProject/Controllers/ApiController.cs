@@ -1,7 +1,7 @@
 ﻿using System.Web.Mvc;
 using Newtonsoft.Json;
 
-namespace EmptyMvcProject.Controllers
+namespace DocsTemplate.Controllers
 {
     public class ApiController : Controller
     {

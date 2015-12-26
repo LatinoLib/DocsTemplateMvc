@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 
-namespace EmptyMvcProject.Controllers
+namespace DocsTemplate.Controllers
 {
     public class HomeController : Controller
     {
