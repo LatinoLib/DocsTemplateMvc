@@ -115,7 +115,34 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="BootstrapDocs_files\apple-touch-icon.png" />
+    <Content Include="BootstrapDocs_files\blog.jpg" />
+    <Content Include="BootstrapDocs_files\bootstrap.min.css" />
+    <Content Include="BootstrapDocs_files\bootstrap.min.js" />
+    <Content Include="BootstrapDocs_files\carousel.jpg" />
+    <Content Include="BootstrapDocs_files\cover.jpg" />
+    <Content Include="BootstrapDocs_files\dashboard.jpg" />
+    <Content Include="BootstrapDocs_files\docs.min.css" />
+    <Content Include="BootstrapDocs_files\docs.min.js" />
+    <Content Include="BootstrapDocs_files\favicon.ico" />
+    <Content Include="BootstrapDocs_files\grid.jpg" />
+    <Content Include="BootstrapDocs_files\ie-emulation-modes-warning.js" />
+    <Content Include="BootstrapDocs_files\ie10-viewport-bug-workaround.js" />
+    <Content Include="BootstrapDocs_files\jquery.min.js" />
+    <Content Include="BootstrapDocs_files\jumbotron-narrow.jpg" />
+    <Content Include="BootstrapDocs_files\jumbotron.jpg" />
+    <Content Include="BootstrapDocs_files\justified-nav.jpg" />
+    <Content Include="BootstrapDocs_files\navbar-fixed.jpg" />
+    <Content Include="BootstrapDocs_files\navbar-static.jpg" />
+    <Content Include="BootstrapDocs_files\navbar.jpg" />
+    <Content Include="BootstrapDocs_files\non-responsive.jpg" />
+    <Content Include="BootstrapDocs_files\offcanvas.jpg" />
+    <Content Include="BootstrapDocs_files\sign-in.jpg" />
+    <Content Include="BootstrapDocs_files\starter-template.jpg" />
+    <Content Include="BootstrapDocs_files\sticky-footer-navbar.jpg" />
+    <Content Include="BootstrapDocs_files\sticky-footer.jpg" />
+    <Content Include="BootstrapDocs_files\theme.jpg" />
+    <Content Include="BootstrapDocs_files\ZeroClipboard.swf" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="Views\Shared\_Layout.cshtml" />
@@ -126,7 +153,6 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Content Include="css\bootstrap.css" />
-    <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="js\bootstrap.js" />
@@ -147,6 +173,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
