@@ -156,7 +156,7 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Shared\Copyright.cshtml" />
+    <Content Include="Views\Shared\FooterText.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Shared\FooterMenu.cshtml" />
