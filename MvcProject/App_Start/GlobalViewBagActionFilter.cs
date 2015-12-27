@@ -11,6 +11,7 @@ namespace DocsTemplate
             filterContext.Controller.ViewBag.ProjectDescription = "Project Description";
             filterContext.Controller.ViewBag.ProjectKeywords = "Project Keywords";
             filterContext.Controller.ViewBag.ProjectAuthors = "Project Authors";
+            filterContext.Controller.ViewBag.Copyright = "<p>Made with love by some cool guys.</p><p>Some copyright text.</p>";
         }
     }
 }
