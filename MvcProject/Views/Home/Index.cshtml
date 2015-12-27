@@ -28,6 +28,10 @@ public static class SomeClassName
 <p>Syntax highlighting is done with <a href='http://prismjs.com/download.html?themes=prism&languages=c+csharp+cpp+java+scala'>Prism</a>.</p>
 <h1 id='section-4'>Based on Bootstrap</h1>
 <p>Note that you have all the power of Bootstrap at your fingertips. Take a look at the HTML version for some kick-ass markup snippets.</p>
+<h1 id='section-5'>How to use</h1>
+<p>First, edit <code>GlobalViewBagActionFilter.cs</code> to set your project's properties. Then simply edit <code>Index.cshtml</code> to create the first page. 
+This template is not yet finished and so there are several annoyances. The most disturbing thing is that you have to maintain the side-nav by yourself 
+(see <code>@@section SideNav</code> in <code>Index.cshtml</code>).</p>
 
 @section SideNav
 {
@@ -40,4 +44,5 @@ public static class SomeClassName
 </li>
 <li> <a href=#section-3>Syntax highlighting</a> </li>
 <li> <a href=#section-4>Based on Bootstrap</a> </li>
+<li> <a href=#section-5>How to use</a> </li>
 }
