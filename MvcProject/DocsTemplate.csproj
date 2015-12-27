@@ -120,6 +120,7 @@
     <Content Include="css\prism.min.css" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="js\bootstrap.min.js" />
     <Content Include="js\docs.min.js" />
     <Content Include="js\ie10-viewport-bug-workaround.js" />
@@ -127,6 +128,9 @@
     <Content Include="js\prism.min.js" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="images\apple-touch-icon.png" />
+    <Content Include="images\favicon.ico" />
+    <Content Include="flash\ZeroClipboard.swf" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -149,9 +153,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
