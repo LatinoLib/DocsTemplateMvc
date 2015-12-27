@@ -109,41 +109,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
-    <Compile Include="Controllers\ApiController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Content Include="css\custom.css" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Content Include="BootstrapDocs_files\apple-touch-icon.png" />
-    <Content Include="BootstrapDocs_files\blog.jpg" />
-    <Content Include="BootstrapDocs_files\bootstrap.min.css" />
-    <Content Include="BootstrapDocs_files\bootstrap.min.js" />
-    <Content Include="BootstrapDocs_files\carousel.jpg" />
-    <Content Include="BootstrapDocs_files\cover.jpg" />
-    <Content Include="BootstrapDocs_files\dashboard.jpg" />
-    <Content Include="BootstrapDocs_files\docs.min.css" />
-    <Content Include="BootstrapDocs_files\docs.min.js" />
-    <Content Include="BootstrapDocs_files\favicon.ico" />
-    <Content Include="BootstrapDocs_files\grid.jpg" />
-    <Content Include="BootstrapDocs_files\ie-emulation-modes-warning.js" />
-    <Content Include="BootstrapDocs_files\ie10-viewport-bug-workaround.js" />
-    <Content Include="BootstrapDocs_files\jquery.min.js" />
-    <Content Include="BootstrapDocs_files\jumbotron-narrow.jpg" />
-    <Content Include="BootstrapDocs_files\jumbotron.jpg" />
-    <Content Include="BootstrapDocs_files\justified-nav.jpg" />
-    <Content Include="BootstrapDocs_files\navbar-fixed.jpg" />
-    <Content Include="BootstrapDocs_files\navbar-static.jpg" />
-    <Content Include="BootstrapDocs_files\navbar.jpg" />
-    <Content Include="BootstrapDocs_files\non-responsive.jpg" />
-    <Content Include="BootstrapDocs_files\offcanvas.jpg" />
-    <Content Include="BootstrapDocs_files\sign-in.jpg" />
-    <Content Include="BootstrapDocs_files\starter-template.jpg" />
-    <Content Include="BootstrapDocs_files\sticky-footer-navbar.jpg" />
-    <Content Include="BootstrapDocs_files\sticky-footer.jpg" />
-    <Content Include="BootstrapDocs_files\theme.jpg" />
-    <Content Include="BootstrapDocs_files\ZeroClipboard.swf" />
     <Content Include="css\bootstrap.min.css" />
     <Content Include="css\docs.min.css" />
     <Content Include="css\prism.min.css" />
@@ -151,7 +122,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="js\bootstrap.min.js" />
     <Content Include="js\docs.min.js" />
-    <Content Include="js\ie-emulation-modes-warning.js" />
     <Content Include="js\ie10-viewport-bug-workaround.js" />
     <Content Include="js\jquery.min.js" />
     <Content Include="js\prism.min.js" />
@@ -161,7 +131,6 @@
   <ItemGroup>
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="App_Start\WebApiConfig.cs" />
     <Content Include="Global.asax" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Web.config" />
