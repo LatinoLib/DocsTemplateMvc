@@ -44,29 +44,22 @@
       </div>
       <div class="container bs-docs-container">
          <div class=row>
-            <div class=col-md-9 role=main>
+            <div class=col-md-@(IsSectionDefined("SideNav") ? "9" : "12") role=main>
                <div class=bs-docs-section>
                   @RenderBody()
                </div>
             </div>
+            @if (IsSectionDefined("SideNav"))
+            {
             <div class=col-md-3 role=complementary>
                <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm">
                   <ul class="nav bs-docs-sidenav">
-                     <li> <a href=#section-1>This is an underlined heading</a> </li>
-                     <li>
-                        <a href=#section-2>This is another heading</a> 
-                        <ul class=nav>
-                           <li><a href=#section-2-1>This is a sub-heading</a></li>
-                        </ul>
-                     </li>
-                     <li>
-                        <a href=#section-3>Syntax highlighting</a> 
-                     </li>
-                     <li> <a href=#section-4>Based on Bootstrap</a> </li>
+                    @RenderSection("SideNav", required: false)
                   </ul>
                   <a class=back-to-top href=#top> Back to top </a> 
                </nav>
             </div>
+            }
          </div>
       </div>
       <footer class=bs-docs-footer role=contentinfo>
