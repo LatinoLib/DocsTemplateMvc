@@ -4,10 +4,10 @@
       <meta charset=utf-8>
       <meta http-equiv=X-UA-Compatible content="IE=edge">
       <meta name=viewport content="width=device-width,initial-scale=1">
-      <meta name=description content="@ViewBag.Description">
-      <meta name=keywords content="@ViewBag.Keywords">
-      <meta name=author content="@ViewBag.Authors">
-      <title> @ViewBag.Title </title>
+      <meta name=description content="@ViewBag.ProjectDescription">
+      <meta name=keywords content="@ViewBag.ProjectKeywords">
+      <meta name=author content="@ViewBag.ProjectAuthors">
+      <title> @ViewBag.PageTitle </title>
       @Styles.Render("~/css/bootstrap-docs")
       @Styles.Render("~/css/prism")
       @Styles.Render("~/css/custom")
@@ -38,8 +38,8 @@
       </header>
       <div class=bs-docs-header id=content tabindex=-1>
          <div class=container>
-            <h1>@ViewBag.Title</h1>
-            <p>@ViewBag.Description</p>
+            <h1>@ViewBag.PageTitle</h1>
+            <p>@ViewBag.PageDescription</p>
          </div>
       </div>
       <div class="container bs-docs-container">

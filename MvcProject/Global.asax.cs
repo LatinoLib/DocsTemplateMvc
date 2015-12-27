@@ -10,6 +10,7 @@ namespace DocsTemplate
         {
             AreaRegistration.RegisterAllAreas();
 
+            GlobalFilters.Filters.Add(new GlobalViewBagActionFilter(), order: 0);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);

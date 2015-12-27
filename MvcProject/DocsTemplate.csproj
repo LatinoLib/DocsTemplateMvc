@@ -109,6 +109,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\GlobalViewBagActionFilter.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Content Include="css\custom.css" />
     <Compile Include="Global.asax.cs">
