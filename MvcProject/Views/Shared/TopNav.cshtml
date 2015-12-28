@@ -1,10 +1,10 @@
 ﻿<nav id=bs-navbar class="collapse navbar-collapse">
     <ul class="nav navbar-nav">
-        <li> <a href="~/Home/SomePage">Some Page</a> </li>
-        <li> <a href="#">Left Link 2</a> </li>
-        <li> <a href="#">Left Link 3</a> </li>
-        <li> <a href="#">Left Link 4</a> </li>
-        <li> <a href="#">Left Link 5</a> </li>
+        <li @(ViewBag.PageTitle == "Some Page" ? "class=active" : "")> <a href="~/Home/SomePage">Some Page</a> </li>
+        <li @(ViewBag.PageTitle == "Left Link 1" ? "class=active" : "")> <a href="#">Left Link 1</a> </li>
+        <li @(ViewBag.PageTitle == "Left Link 2" ? "class=active" : "")> <a href="#">Left Link 2</a> </li>
+        <li @(ViewBag.PageTitle == "Left Link 3" ? "class=active" : "")> <a href="#">Left Link 3</a> </li>
+        <li @(ViewBag.PageTitle == "Left Link 4" ? "class=active" : "")> <a href="#">Left Link 4</a> </li>
     </ul>
     <ul class="nav navbar-nav navbar-right">
         <li><a href='#'>Right Link 1</a></li>
