@@ -24,13 +24,7 @@
             @RenderPage("TopNav.cshtml")
          </div>
       </header>   
-      <main class=bs-docs-masthead id=content role=main tabindex=-1>
-        <div class=container>
-          <span class="bs-docs-booticon bs-docs-booticon-lg bs-docs-booticon-outline">X</span> <!-- TODO: logo SVG -->
-          <p class=lead>@Html.Raw(ViewBag.ProjectDescription)</p>
-          <p class=lead> <a href="#" class="btn btn-outline-inverse btn-lg">Download button</a> </p>
-        </div>
-      </main>
+      @RenderPage("FirstPageBanner.cshtml")
       @RenderBody()
       <footer class=bs-docs-footer role=contentinfo>
          <div class=container>
