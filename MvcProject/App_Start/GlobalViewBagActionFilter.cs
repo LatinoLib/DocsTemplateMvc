@@ -11,6 +11,7 @@ namespace DocsTemplate
             filterContext.Controller.ViewBag.ProjectDescription = "LATINO is a light-weight framework for building text mining applications.";
             filterContext.Controller.ViewBag.ProjectKeywords = "put some keywords here";
             filterContext.Controller.ViewBag.ProjectAuthors = "Miha Grčar & contributors";
+            filterContext.Controller.ViewBag.GitHubBaseUrl = "https://github.com/SowaLabs/LATINO";
         }
     }
 }
