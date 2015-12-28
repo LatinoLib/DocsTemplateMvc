@@ -7,11 +7,10 @@ namespace DocsTemplate
     {
         public override void OnResultExecuting(ResultExecutingContext filterContext)
         {
-            filterContext.Controller.ViewBag.ProjectName = "Project Name";
-            filterContext.Controller.ViewBag.ProjectDescription = "Project Description";
-            filterContext.Controller.ViewBag.ProjectKeywords = "Project Keywords";
-            filterContext.Controller.ViewBag.ProjectAuthors = "Project Authors";
-            filterContext.Controller.ViewBag.Copyright = "<p>Made with love by some cool guys.</p><p>Some copyright text.</p>";
+            filterContext.Controller.ViewBag.ProjectName = "LATINO";
+            filterContext.Controller.ViewBag.ProjectDescription = "LATINO is a light-weight framework for building text mining applications.";
+            filterContext.Controller.ViewBag.ProjectKeywords = "put some keywords here";
+            filterContext.Controller.ViewBag.ProjectAuthors = "Miha Grčar & contributors";
         }
     }
 }
