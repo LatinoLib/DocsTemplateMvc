@@ -3,3 +3,8 @@
     margin: 0;
     background: transparent;
 }
+
+.bs-docs-featured-sites .col-sm-3:first-child img, .bs-docs-featured-sites .col-sm-3:last-child img {
+    border-bottom-left-radius: 0px; 
+    border-top-left-radius: 0px; 
+}
