@@ -12,6 +12,7 @@ namespace DocsTemplate
             filterContext.Controller.ViewBag.ProjectKeywords = "text mining, machine learning, NLP, BOW, C#, .NET, software library, open source";
             filterContext.Controller.ViewBag.ProjectAuthors = "Miha Grčar & contributors";
             filterContext.Controller.ViewBag.GitHubBaseUrl = "https://github.com/LatinoLib/LATINO";
+            filterContext.Controller.ViewBag.CurrentVersion = "1.0";
         }
     }
 }
