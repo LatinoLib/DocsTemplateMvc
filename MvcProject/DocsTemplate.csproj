@@ -123,8 +123,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="images\components.png" />
-    <Content Include="images\devices.png" />
-    <Content Include="images\sass-less.png" />
     <Content Include="js\bootstrap.min.js" />
     <Content Include="js\docs.min.js" />
     <Content Include="js\ie10-viewport-bug-workaround.js" />
