@@ -8,10 +8,10 @@ namespace DocsTemplate
         public override void OnResultExecuting(ResultExecutingContext filterContext)
         {
             filterContext.Controller.ViewBag.ProjectName = "LATINO";
-            filterContext.Controller.ViewBag.ProjectDescription = "LATINO is a light-weight framework for building text mining applications.";
-            filterContext.Controller.ViewBag.ProjectKeywords = "put some keywords here";
+            filterContext.Controller.ViewBag.ProjectDescription = "LATINO is a light-weight framework for building text mining applications in C#.";
+            filterContext.Controller.ViewBag.ProjectKeywords = "text mining, machine learning, NLP, BOW, C#, .NET, software library, open source";
             filterContext.Controller.ViewBag.ProjectAuthors = "Miha Grčar & contributors";
-            filterContext.Controller.ViewBag.GitHubBaseUrl = "https://github.com/SowaLabs/LATINO";
+            filterContext.Controller.ViewBag.GitHubBaseUrl = "https://github.com/LatinoLib/LATINO";
         }
     }
 }
