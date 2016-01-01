@@ -2,14 +2,13 @@
 
     // render math
 
-    $(".math").after(function () {
-        return $(this).prop("tagName") == "SPAN" ? 
-            "<span class='writing-math'>Writing math ...</span>" :
-            "<p class='writing-math'><span>Writing math ...</span></p>";
-    });
     MathJax.Hub.Queue(function () {
         $(".math").each(function () {
-            $(this).next(".writing-math").remove();
+            if ($(this).prop("tagName") == "SPAN") {                
+                $(this).next(".math-alt, .math-alt-default").remove();
+            } else {
+                $(this).find("span:first-child").next(".math-alt, .math-alt-default").remove();
+            }
             $(this).removeClass("math");
         });
     });
