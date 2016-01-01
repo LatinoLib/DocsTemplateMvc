@@ -11,6 +11,8 @@ namespace DocsTemplate
             filterContext.Controller.ViewBag.ProjectDescription = "Project Description";
             filterContext.Controller.ViewBag.ProjectKeywords = "Project Keywords";
             filterContext.Controller.ViewBag.ProjectAuthors = "Project Authors";
+            filterContext.Controller.ViewBag.GitHubBaseUrl = "https://github.com/me/project";
+            filterContext.Controller.ViewBag.CurrentVersion = "1.0";
         }
     }
 }
