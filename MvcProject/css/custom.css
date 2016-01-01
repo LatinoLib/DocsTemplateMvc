@@ -8,3 +8,24 @@
     border-bottom-left-radius: 0px; 
     border-top-left-radius: 0px; 
 }
+    
+span.math, p.math > span:first-child {
+    display: none;
+}
+
+p.math {
+    text-align: center;
+}
+
+.math-alt {
+    border: 1px solid #ccc;
+    padding: 6px 12px;
+    border-radius: 4px;
+}
+
+.math-alt-default:before {
+    content: "Writing math ...";
+    border: 1px solid #ccc;
+    padding: 6px 12px;
+    border-radius: 4px;
+}
