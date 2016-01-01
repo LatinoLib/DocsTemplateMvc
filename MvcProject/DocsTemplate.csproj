@@ -115,6 +115,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Content Include="js\custom.js" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="css\bootstrap.min.css" />
     <Content Include="css\docs.min.css" />
@@ -130,6 +131,7 @@
     <Content Include="js\ie10-viewport-bug-workaround.js" />
     <Content Include="js\jquery.min.js" />
     <Content Include="js\prism.min.js" />
+    <Content Include="MathJax\MathJax.js" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="images\apple-touch-icon.png" />

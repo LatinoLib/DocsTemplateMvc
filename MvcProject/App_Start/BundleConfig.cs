@@ -33,6 +33,9 @@ namespace DocsTemplate
             bundles.Add(new ScriptBundle("~/js/hacks").Include(
                 "~/js/ie10-viewport-bug-workaround.js"
             ));
+            bundles.Add(new ScriptBundle("~/js/custom").Include(
+                "~/js/custom.js"
+            ));
         }
     }
 }

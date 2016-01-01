@@ -8,3 +8,17 @@
     border-bottom-left-radius: 0px; 
     border-top-left-radius: 0px; 
 }
+
+span.writing-math, p.writing-math > span {
+    border: 1px solid #ccc;
+    padding: 6px 12px;
+    border-radius: 4px;
+}
+
+p.writing-math {
+    text-align: center;
+}
+    
+.math {
+    display: none;
+}
