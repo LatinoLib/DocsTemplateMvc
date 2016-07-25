@@ -1,0 +1,904 @@
+﻿@{
+    ViewBag.PageTitle = "Text preprocessing";
+    ViewBag.PageDescription = "Converting texts into bags of words.";
+}
+
+<h1 id='section-1'>Quick start</h1>
+<p>This snippet reads a bunch of labeled one-line documents and turns them into a set of bag-of-words vectors.</p>
+<figure class=highlight>
+<pre><code class='language-csharp'>using System.IO;
+using System.Linq;
+using Latino.TextMining;
+
+namespace LatinoTutorials
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            // read data
+            var dataset = File.ReadAllLines(@@"waka-waka")
+                .Select(x => x.Split(new char[] { '\t' }, 2))
+                .Select(x => new { Label = x[0], Text = x[1] });
+
+            // initialize BOW space
+            var bowSpc = new BowSpace { 
+                CutLowWeightsPerc = 0.2,
+                MaxNGramLen = 2,
+                MinWordFreq = 3,
+                NormalizeVectors = true,
+                Stemmer = new Stemmer(Language.English),
+                StopWords = new StopWords(Language.English),
+                Tokenizer = new SimpleTokenizer { MinTokenLen = 2, TokenType = TokenType.AlphaOnly },
+                WordWeightType = WordWeightType.TfIdf
+            };
+
+            // create BOW vectors
+            var bows = bowSpc.Initialize(dataset.Select(x => x.Text));
+
+            // ...
+        }
+    }
+}</code></pre>
+</figure>
+<h1 id='section-2'>Options</h1>
+<h2 id='section-2-1'>BOW space options</h2>
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th class="col-xs-2">
+                Option
+            </th>
+            <th class="col-xs-2">
+                Meaning
+            </th>
+            <th class="col-xs-2">
+                Values
+            </th>
+            <th class="col-xs-2">
+                Interface
+            </th>
+            <th class="col-xs-2">
+                Default
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th scope="row">
+                <code>CutLowWeightsPerc</code>
+            </th>
+            <td>
+                Weight cut&#8209;off parameter
+            </td>
+            <td>
+                [0.0, 1.0)
+            </td>
+            <td>
+                N/A
+            </td>
+            <td>
+                0.2
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">
+                <code>MaxNGramLen</code>
+            </th>
+            <td>
+                Maximum n&#8209;gram length 
+            </td>
+            <td>
+                [1, inf)
+            </td>
+            <td>
+                N/A
+            </td>
+            <td>
+                2
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">
+                <code>MinWordFreq</code>
+            </th>
+            <td>
+                Minimum required word frequency
+            </td>
+            <td>
+                [1, inf)
+            </td>
+            <td>
+                N/A
+            </td>
+            <td>
+                3
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">
+                <code>NormalizeVectors</code>
+            </th>
+            <td>
+                Vector normalization flag
+            </td>
+            <td>
+                <code>true</code> or <code>false</code>
+            </td>
+            <td>
+                N/A
+            </td>
+            <td>
+                <code>true</code>
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">
+                <code>Stemmer</code>
+            </th>
+            <td>
+                Stemmer or lemmatizer
+            </td>
+            <td>
+                <code>new&nbsp;Stemmer(language)</code> or <code>new&nbsp;Lemmatizer(language)</code> or <code>null</code>
+            </td>
+            <td>
+                <code>IStemmer</code>
+            </td>
+            <td>
+                <code>null</code> (stemming not applied)
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">
+                <code>StopWords</code>
+            </th>
+            <td>
+                Stop words
+            </td>
+            <td>
+                <code>new&nbsp;StopWords(language)</code> or <code>null</code>
+            </td>
+            <td>
+                <code>IStopWords</code>
+            </td>
+            <td>
+                <code>null</code> (stop words not detected)
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">
+                <code>Tokenizer</code>
+            </th>
+            <td>
+                Tokenizer
+            </td>
+            <td>
+                See <a href=#section-2-2>Tokenizer options</a> below
+            </td>
+            <td>
+                <code>ITokenizer</code>
+            </td>
+            <td>
+                <code>new&nbsp;SimpleTokenizer { MinTokenLen = 2, TokenType = TokenType.AlphaOnly }</code> 
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">
+                <code>WordWeightType</code>
+            </th>
+            <td>
+                Word weighting function
+            </td>
+            <td>
+                <code>WordWeightType.TermFreq</code>, <code>WordWeightType.TfIdf</code>
+            </td>
+            <td>
+                N/A
+            </td>
+            <td>
+                <code>WordWeightType.TfIdf</code> 
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<h2 id='section-2-2'>Tokenizer options</h2>
+<p>LATINO comes with the following tokenizers: <code>SimpleTokenizer</code>, <code>RegexTokenizer</code>, and <code>UnicodeTokenizer</code>. See <a href=#section-4>Theory and stuff</a> below for how they work.</p>
+<h3 id='section-2-2-1'>Simple tokenizer</h3>
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th class="col-xs-2">
+                Option
+            </th>
+            <th class="col-xs-2">
+                Meaning
+            </th>
+            <th class="col-xs-2">
+                Values
+            </th>
+            <th class="col-xs-2">
+                Default
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th scope="row">
+                <code>TokenType</code>
+            </th>
+            <td>
+                Token type
+            </td>
+            <td>
+                <code>TokenType.AllChars</code>, <code>TokenType.AlphaOnly</code>, <code>TokenType.AlphanumOnly</code>
+            </td>
+            <td>
+                <code>TokenType.AlphaOnly</code>
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">
+                <code>MinTokenLen</code>
+            </th>
+            <td>
+                Minimum token length
+            </td>
+            <td>
+                [1, inf)
+            </td>
+            <td>
+                2
+            </td>
+        </tr>
+    </tbody>
+</table>
+<h3 id='section-2-2-2'>Regex tokenizer</h3>
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th class="col-xs-2">
+                Option
+            </th>
+            <th class="col-xs-2">
+                Meaning
+            </th>
+            <th class="col-xs-2">
+                Values
+            </th>
+            <th class="col-xs-2">
+                Default
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th scope="row">
+                <code>TokenRegex</code>
+            </th>
+            <td>
+                Token regular expression
+            </td>
+            <td>
+                Valid regular expression
+            </td>
+            <td>
+                <code>\p{L}{2,}</code>
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">
+                <code>IgnoreUnmatchedTokens</code>
+            </th>
+            <td>
+                Ignore unmatched tokens flag
+            </td>
+            <td>
+                <code>true</code> or <code>false</code>
+            </td>
+            <td>
+                <code>true</code>
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">
+                <code>TokenRegexOptions</code>
+            </th>
+            <td>
+                Token matching options
+            </td>
+            <td>
+                <code>RegexOptions</code> (<code>System.Text.RegularExpressions</code>) 
+            </td>
+            <td>
+                <code>RegexOptions.Compiled</code>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<h3 id='section-2-2-3'>Unicode tokenizer</h3>
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th class="col-xs-2">
+                Option
+            </th>
+            <th class="col-xs-2">
+                Meaning
+            </th>
+            <th class="col-xs-2">
+                Values
+            </th>
+            <th class="col-xs-2">
+                Default
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th scope="row">
+                <code>TokenFilter</code>
+            </th>
+            <td>
+                Token filter
+            </td>
+            <td>
+                <code>TokenFilter.AlphanumLoose</code>, <code>TokenFilter.AlphanumStrict</code>, <code>TokenFilter.AlphaLoose</code>, <code>TokenFilter.AlphaStrict</code>, <code>TokenFilter.None</code>
+            </td>
+            <td>
+                <code>TokenFilter.AlphaStrict</code>
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">
+                <code>MinTokenLen</code>
+            </th>
+            <td>
+                Minimum token length
+            </td>
+            <td>
+                [1, inf)
+            </td>
+            <td>
+                2
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<h1 id='section-3'>Language support</h1>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th class="col-xs-2">
+                Language
+            </th>
+            <th class="col-xs-2">
+                Stemmer
+            </th>
+            <th class="col-xs-2">
+                Lemmatizer
+            </th>
+            <th class="col-xs-2">
+                Stemmer or lemmatizer
+            </th>
+            <th class="col-xs-2">
+                Stop words
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th scope="row">
+                Bulgarian
+            </th>
+            <td class=text-success>
+                
+            </td>
+            <td class=text-success>
+                <span class="glyphicon glyphicon-ok" aria-hidden=true></span> Supported
+            </td>
+            <td class=text-success>
+                <span class="glyphicon glyphicon-ok" aria-hidden=true></span> Supported
+            </td>
+            <td class=text-success>
+                <span class="glyphicon glyphicon-ok" aria-hidden=true></span> Supported
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">
+                Croatian
+            </th>
+            <td class=text-success>
+                
+            </td>
+            <td class=text-success>
+                
+            </td>
+            <td class=text-success>
+                
+            </td>
+            <td class=text-success>
+                
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">
+                Czech
+            </th>
+            <td class=text-success>
+                
+            </td>
+            <td class=text-success>
+                <span class="glyphicon glyphicon-ok" aria-hidden=true></span> Supported
+            </td>
+            <td class=text-success>
+                <span class="glyphicon glyphicon-ok" aria-hidden=true></span> Supported
+            </td>
+            <td class=text-success>
+                <span class="glyphicon glyphicon-ok" aria-hidden=true></span> Supported
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">
+                Danish
+            </th>
+            <td class=text-success>
+                <span class="glyphicon glyphicon-ok" aria-hidden=true></span> Supported
+            </td>
+            <td class=text-success>
+                
+            </td>
+            <td class=text-success>
+                <span class="glyphicon glyphicon-ok" aria-hidden=true></span> Supported
+            </td>
+            <td class=text-success>
+                <span class="glyphicon glyphicon-ok" aria-hidden=true></span> Supported
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">
+                Dutch
+            </th>
+            <td class=text-success>
+                <span class="glyphicon glyphicon-ok" aria-hidden=true></span> Supported
+            </td>
+            <td class=text-success>
+                
+            </td>
+            <td class=text-success>
+                <span class="glyphicon glyphicon-ok" aria-hidden=true></span> Supported
+            </td>
+            <td class=text-success>
+                <span class="glyphicon glyphicon-ok" aria-hidden=true></span> Supported
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">
+                English
+            </th>
+            <td class=text-success>
+                <span class="glyphicon glyphicon-ok" aria-hidden=true></span> Supported
+            </td>
+            <td class=text-success>
+                <span class="glyphicon glyphicon-ok" aria-hidden=true></span> Supported
+            </td>
+            <td class=text-success>
+                <span class="glyphicon glyphicon-ok" aria-hidden=true></span> Supported
+            </td>
+            <td class=text-success>
+                <span class="glyphicon glyphicon-ok" aria-hidden=true></span> Supported
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">
+                Estonian
+            </th>
+            <td class=text-success>
+                
+            </td>
+            <td class=text-success>
+                <span class="glyphicon glyphicon-ok" aria-hidden=true></span> Supported
+            </td>
+            <td class=text-success>
+                <span class="glyphicon glyphicon-ok" aria-hidden=true></span> Supported
+            </td>
+            <td class=text-success>
+                <span class="glyphicon glyphicon-ok" aria-hidden=true></span> Supported
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">
+                Finnish
+            </th>
+            <td class=text-success>
+                <span class="glyphicon glyphicon-ok" aria-hidden=true></span> Supported
+            </td>
+            <td class=text-success>
+                
+            </td>
+            <td class=text-success>
+                <span class="glyphicon glyphicon-ok" aria-hidden=true></span> Supported
+            </td>
+            <td class=text-success>
+                <span class="glyphicon glyphicon-ok" aria-hidden=true></span> Supported
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">
+                French
+            </th>
+            <td class=text-success>
+                <span class="glyphicon glyphicon-ok" aria-hidden=true></span> Supported
+            </td>
+            <td class=text-success>
+                <span class="glyphicon glyphicon-ok" aria-hidden=true></span> Supported
+            </td>
+            <td class=text-success>
+                <span class="glyphicon glyphicon-ok" aria-hidden=true></span> Supported
+            </td>
+            <td class=text-success>
+                <span class="glyphicon glyphicon-ok" aria-hidden=true></span> Supported
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">
+                German
+            </th>
+            <td class=text-success>
+                <span class="glyphicon glyphicon-ok" aria-hidden=true></span> Supported
+            </td>
+            <td class=text-success>
+                <span class="glyphicon glyphicon-ok" aria-hidden=true></span> Supported
+            </td>
+            <td class=text-success>
+                <span class="glyphicon glyphicon-ok" aria-hidden=true></span> Supported
+            </td>
+            <td class=text-success>
+                <span class="glyphicon glyphicon-ok" aria-hidden=true></span> Supported
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">
+                Greek
+            </th>
+            <td class=text-success>
+                
+            </td>
+            <td class=text-success>
+                
+            </td>
+            <td class=text-success>
+                
+            </td>
+            <td class=text-success>
+                
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">
+                Hungarian
+            </th>
+            <td class=text-success>
+                
+            </td>
+            <td class=text-success>
+                <span class="glyphicon glyphicon-ok" aria-hidden=true></span> Supported
+            </td>
+            <td class=text-success>
+                <span class="glyphicon glyphicon-ok" aria-hidden=true></span> Supported
+            </td>
+            <td class=text-success>
+                <span class="glyphicon glyphicon-ok" aria-hidden=true></span> Supported
+            </td>
+        </tr>
+        @*<tr>
+            <th scope="row">
+                Icelandic 
+            </th>
+            <td class=text-success>
+                
+            </td>
+            <td class=text-success>
+                
+            </td>
+            <td class=text-success>
+                
+            </td>
+            <td class=text-success>
+                
+            </td>
+        </tr>*@
+        <tr>
+            <th scope="row">
+                Italian
+            </th>
+            <td class=text-success>
+                <span class="glyphicon glyphicon-ok" aria-hidden=true></span> Supported
+            </td>
+            <td class=text-success>
+                <span class="glyphicon glyphicon-ok" aria-hidden=true></span> Supported
+            </td>
+            <td class=text-success>
+                <span class="glyphicon glyphicon-ok" aria-hidden=true></span> Supported
+            </td>
+            <td class=text-success>
+                <span class="glyphicon glyphicon-ok" aria-hidden=true></span> Supported
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">
+                Irish
+            </th>
+            <td class=text-success>
+                
+            </td>
+            <td class=text-success>
+                
+            </td>
+            <td class=text-success>
+                
+            </td>
+            <td class=text-success>
+                
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">
+                Latvian
+            </th>
+            <td class=text-success>
+                
+            </td>
+            <td class=text-success>
+                
+            </td>
+            <td class=text-success>
+                
+            </td>
+            <td class=text-success>
+                
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">
+                Lithuanian
+            </th>
+            <td class=text-success>
+                
+            </td>
+            <td class=text-success>
+                
+            </td>
+            <td class=text-success>
+                
+            </td>
+            <td class=text-success>
+                
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">
+                Maltese
+            </th>
+            <td class=text-success>
+                
+            </td>
+            <td class=text-success>
+                
+            </td>
+            <td class=text-success>
+                
+            </td>
+            <td class=text-success>
+                
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">
+                Norwegian
+            </th>
+            <td class=text-success>
+                <span class="glyphicon glyphicon-ok" aria-hidden=true></span> Supported
+            </td>
+            <td class=text-success>
+                
+            </td>
+            <td class=text-success>
+                <span class="glyphicon glyphicon-ok" aria-hidden=true></span> Supported
+            </td>
+            <td class=text-success>
+                <span class="glyphicon glyphicon-ok" aria-hidden=true></span> Supported
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">
+                Polish
+            </th>
+            <td class=text-success>
+                
+            </td>
+            <td class=text-success>
+                
+            </td>
+            <td class=text-success>
+                
+            </td>
+            <td class=text-success>
+                
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">
+                Portuguese
+            </th>
+            <td class=text-success>
+                <span class="glyphicon glyphicon-ok" aria-hidden=true></span> Supported
+            </td>
+            <td class=text-success>
+                
+            </td>
+            <td class=text-success>
+                <span class="glyphicon glyphicon-ok" aria-hidden=true></span> Supported
+            </td>
+            <td class=text-success>
+                <span class="glyphicon glyphicon-ok" aria-hidden=true></span> Supported
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">
+                Romanian
+            </th>
+            <td class=text-success>
+                
+            </td>
+            <td class=text-success>
+                <span class="glyphicon glyphicon-ok" aria-hidden=true></span> Supported
+            </td>
+            <td class=text-success>
+                <span class="glyphicon glyphicon-ok" aria-hidden=true></span> Supported
+            </td>
+            <td class=text-success>
+                <span class="glyphicon glyphicon-ok" aria-hidden=true></span> Supported
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">
+                Russian
+            </th>
+            <td class=text-success>
+                <span class="glyphicon glyphicon-ok" aria-hidden=true></span> Supported
+            </td>
+            <td class=text-success>
+                
+            </td>
+            <td class=text-success>
+                <span class="glyphicon glyphicon-ok" aria-hidden=true></span> Supported
+            </td>
+            <td class=text-success>
+                <span class="glyphicon glyphicon-ok" aria-hidden=true></span> Supported
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">
+                Serbian
+            </th>
+            <td class=text-success>
+                
+            </td>
+            <td class=text-success>
+                <span class="glyphicon glyphicon-ok" aria-hidden=true></span> Supported
+            </td>
+            <td class=text-success>
+                <span class="glyphicon glyphicon-ok" aria-hidden=true></span> Supported
+            </td>
+            <td class=text-success>
+                <span class="glyphicon glyphicon-ok" aria-hidden=true></span> Supported
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">
+                Slovak
+            </th>
+            <td class=text-success>
+                
+            </td>
+            <td class=text-success>
+                
+            </td>
+            <td class=text-success>
+                
+            </td>
+            <td class=text-success>
+                
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">
+                Slovene
+            </th>
+            <td class=text-success>
+                
+            </td>
+            <td class=text-success>
+                <span class="glyphicon glyphicon-ok" aria-hidden=true></span> Supported
+            </td>
+            <td class=text-success>
+                <span class="glyphicon glyphicon-ok" aria-hidden=true></span> Supported
+            </td>
+            <td class=text-success>
+                <span class="glyphicon glyphicon-ok" aria-hidden=true></span> Supported
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">
+                Spanish
+            </th>
+            <td class=text-success>
+                <span class="glyphicon glyphicon-ok" aria-hidden=true></span> Supported
+            </td>
+            <td class=text-success>
+                <span class="glyphicon glyphicon-ok" aria-hidden=true></span> Supported
+            </td>
+            <td class=text-success>
+                <span class="glyphicon glyphicon-ok" aria-hidden=true></span> Supported
+            </td>
+            <td class=text-success>
+                <span class="glyphicon glyphicon-ok" aria-hidden=true></span> Supported
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">
+                Swedish
+            </th>
+            <td class=text-success>
+                <span class="glyphicon glyphicon-ok" aria-hidden=true></span> Supported
+            </td>
+            <td class=text-success>
+                
+            </td>
+            <td class=text-success>
+                <span class="glyphicon glyphicon-ok" aria-hidden=true></span> Supported
+            </td>
+            <td class=text-success>
+                <span class="glyphicon glyphicon-ok" aria-hidden=true></span> Supported
+            </td>
+        </tr>
+        @*<tr>
+            <th scope="row">
+                Turkish
+            </th>
+            <td class=text-success>
+                
+            </td>
+            <td class=text-success>
+                
+            </td>
+            <td class=text-success>
+                
+            </td>
+            <td class=text-success>
+                
+            </td>
+        </tr>*@
+    </tbody>
+</table>
+
+<h1 id='section-4'>Theory and stuff</h1>
+<p>We're still working on this section. In the meantime, you can look at <a href="#">this thesis</a> which describes the text preprocessing routine implemented in LATINO on pages 23&#8211;26 with some implementation-specific details on pages 38&#8211;41.</p>
+
+@section SideNav
+{
+<li> <a href=#section-1>Quick start</a> </li>
+<li>
+    <a href=#section-2>Options</a> 
+    <ul class=nav>
+        <li><a href=#section-2-1>BOW space options</a></li>
+        <li><a href=#section-2-2>Tokenizer options</a></li>
+    </ul>
+</li>
+<li> <a href=#section-3>Language support</a> </li>
+<li> <a href=#section-4>Theory and stuff</a> </li>
+}
