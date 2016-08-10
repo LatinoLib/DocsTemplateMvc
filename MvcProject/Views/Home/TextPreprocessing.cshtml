@@ -4,7 +4,7 @@
 }
 
 <h1 id='section-1'>Quick start</h1>
-<p>This snippet reads a bunch of labeled one-line documents and turns them into a set of bag-of-words vectors.</p>
+<p>This snippet reads a bunch of labeled one-line documents and turns them into a set of bag-of-words vectors. The dataset used in this example can be downloaded from <a href="~/Downloads/VL.txt">here</a>.</p>
 <figure class=highlight>
 <pre><code class='language-csharp'>using System.IO;
 using System.Linq;
@@ -17,7 +17,7 @@ namespace LatinoTutorials
         static void Main(string[] args)
         {
             // read data
-            var dataset = File.ReadAllLines(@@"waka-waka")
+            var dataset = File.ReadAllLines("VL.txt")
                 .Select(x => x.Split(new char[] { '\t' }, 2))
                 .Select(x => new { Label = x[0], Text = x[1] });
 
@@ -36,7 +36,14 @@ namespace LatinoTutorials
             // create BOW vectors
             var bows = bowSpc.Initialize(dataset.Select(x => x.Text));
 
-            // ...
+            // output some BOWs
+            foreach (var bow in bows.Take(5))
+            {
+                Console.WriteLine(bow
+                    .Select(item => string.Format("\"{0}\":{1:0.####}", bowSpc.Words[item.Idx].MostFrequentForm, item.Dat))
+                    .Aggregate((i1, i2) => i1 + " " + i2)
+                );
+            }
         }
     }
 }</code></pre>

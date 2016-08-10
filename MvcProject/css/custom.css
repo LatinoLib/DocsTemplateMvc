@@ -4,6 +4,13 @@
     background: transparent;
 }
 
+@media (min-width: 992px)
+{
+    .bs-docs-header h1, .bs-docs-header p {
+        margin-right: 0;
+    }
+}
+
 .bs-docs-featured-sites .col-sm-3:first-child img, .bs-docs-featured-sites .col-sm-3:last-child img {
     border-bottom-left-radius: 0px; 
     border-top-left-radius: 0px; 
